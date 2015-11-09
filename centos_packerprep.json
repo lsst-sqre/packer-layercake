@@ -1,0 +1,35 @@
+{
+  "builders":[
+    {
+      "name": "7",
+      "type": "docker",
+      "image": "centos:7",
+      "commit": true
+    },
+    {
+      "name": "6",
+      "type": "docker",
+      "image": "centos:6",
+      "pull": false,
+      "commit": true
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "inline": [
+        "yum install -y wget sudo",
+        "sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers",
+        "yum clean all"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "repository": "sqre/centos",
+      "tag": "{{build_name}}-packerprep",
+      "force": "true"
+    }
+  ]
+}

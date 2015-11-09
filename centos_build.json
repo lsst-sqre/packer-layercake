@@ -1,0 +1,66 @@
+{
+  "builders":[
+    {
+      "name": "docker-centos-6",
+      "type": "docker",
+      "image": "sqre/centos:6-newinstall",
+      "pull": true,
+      "commit": true
+    },
+    {
+      "name": "docker-centos-7",
+      "type": "docker",
+      "image": "sqre/centos:7-newinstall",
+      "pull": true,
+      "commit": true
+    },
+    {
+      "name": "openstack-centos-6",
+      "type": "openstack",
+      "ssh_username": "vagrant",
+      "image_name": "centos-6-stack-{{user `tag`}}-{{timestamp}}",
+      "source_image": "87993da1-e7b3-48ea-830f-bd17736904ac",
+      "use_floating_ip": true,
+      "floating_ip_pool": "ext-net",
+      "security_groups": ["default", "remote SSH"],
+      "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
+      "flavor": "m1.xlarge"
+    },
+    {
+      "name": "openstack-centos-7",
+      "type": "openstack",
+      "ssh_username": "vagrant",
+      "image_name": "centos-7-stack-{{user `tag`}}-{{timestamp}}",
+      "source_image": "53083136-92e8-4e0f-99f7-1b1df69665e1",
+      "use_floating_ip": true,
+      "floating_ip_pool": "ext-net",
+      "security_groups": ["default", "remote SSH"],
+      "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
+      "flavor": "m1.xlarge"
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "environment_vars": [
+        "TAG={{user `tag`}}",
+        "PRODUCTS={{user `products`}}"
+      ],
+      "scripts": [
+        "scripts/build.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "repository": "sqre/centos",
+      "tag": "{{build_name}}-packerprep",
+      "force": "true"
+    }
+  ],
+  "variables": {
+    "tag": "",
+    "products": "lsst_apps"
+  }
+}
