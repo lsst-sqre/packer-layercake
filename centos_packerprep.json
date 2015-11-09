@@ -1,13 +1,13 @@
 {
   "builders":[
     {
-      "name": "7",
+      "name": "docker-centos-7",
       "type": "docker",
       "image": "centos:7",
       "commit": true
     },
     {
-      "name": "6",
+      "name": "docker-centos-6",
       "type": "docker",
       "image": "centos:6",
       "pull": false,

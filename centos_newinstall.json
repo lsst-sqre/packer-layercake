@@ -3,14 +3,14 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "sqre/centos:6-packerprep",
+      "image": "sqre/centos:docker-centos-6-packerprep",
       "pull": false,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "sqre/centos:7-packerprep",
+      "image": "sqre/centos:docker-centos-7-packerprep",
       "pull": false,
       "commit": true
     },

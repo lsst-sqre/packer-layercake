@@ -3,14 +3,14 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "sqre/centos:6-newinstall",
+      "image": "sqre/centos:docker-centos-6-newinstall",
       "pull": true,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "sqre/centos:7-newinstall",
+      "image": "sqre/centos:docker-centos-7-newinstall",
       "pull": true,
       "commit": true
     },
