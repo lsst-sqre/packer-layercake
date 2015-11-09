@@ -1,1 +1,5 @@
 bin/
+.bundle/
+.librarian/
+modules/
+.tmp/
