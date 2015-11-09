@@ -54,6 +54,7 @@
   "post-processors": [
     {
       "type": "docker-tag",
+      "only": ["docker-centos-6", "docker-centos-7"],
       "repository": "sqre/centos",
       "tag": "{{build_name}}-packerprep",
       "force": "true"
