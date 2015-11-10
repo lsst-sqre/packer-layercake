@@ -27,10 +27,34 @@
   "post-processors": [
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6", "docker-centos-7"],
+      "only": ["docker-centos-6"],
       "repository": "sqre/centos",
-      "tag": "{{build_name}}-packerprep",
+      "tag": "6-packerprep-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-6"],
+      "repository": "sqre/centos",
+      "tag": "6-packerprep",
+      "force": "true"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "sqre/centos",
+      "tag": "7-packerprep-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "sqre/centos",
+      "tag": "7-packerprep",
       "force": "true"
     }
-  ]
+  ],
+  "variables": {
+    "build_timestamp": "{{isotime \"20060102150405\"}}"
+  }
 }

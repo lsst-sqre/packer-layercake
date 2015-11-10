@@ -3,14 +3,14 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "sqre/centos:docker-centos-6-newinstall",
+      "image": "sqre/centos:6-newinstall",
       "pull": true,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "sqre/centos:docker-centos-7-newinstall",
+      "image": "sqre/centos:7-newinstall",
       "pull": true,
       "commit": true
     },
@@ -18,7 +18,7 @@
       "name": "openstack-centos-6",
       "type": "openstack",
       "ssh_username": "vagrant",
-      "image_name": "centos-6-stack-{{user `tag`}}-{{timestamp}}",
+      "image_name": "centos-6-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
       "source_image": "87993da1-e7b3-48ea-830f-bd17736904ac",
       "use_floating_ip": true,
       "floating_ip_pool": "ext-net",
@@ -30,7 +30,7 @@
       "name": "openstack-centos-7",
       "type": "openstack",
       "ssh_username": "vagrant",
-      "image_name": "centos-7-stack-{{user `tag`}}-{{timestamp}}",
+      "image_name": "centos-7-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
       "source_image": "53083136-92e8-4e0f-99f7-1b1df69665e1",
       "use_floating_ip": true,
       "floating_ip_pool": "ext-net",
@@ -54,13 +54,35 @@
   "post-processors": [
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6", "docker-centos-7"],
+      "only": ["docker-centos-6"],
       "repository": "sqre/centos",
-      "tag": "{{build_name}}-packerprep",
+      "tag": "6-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-6"],
+      "repository": "sqre/centos",
+      "tag": "6-stack-{{user `products`}}-{{user `tag`}}",
+      "force": "true"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "sqre/centos",
+      "tag": "7-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "sqre/centos",
+      "tag": "7-stack-{{user `products`}}-{{user `tag`}}",
       "force": "true"
     }
   ],
   "variables": {
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
     "tag": "",
     "products": "lsst_apps"
   }
