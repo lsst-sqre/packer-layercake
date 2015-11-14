@@ -3,15 +3,15 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "sqre/centos:6-packerprep",
-      "pull": true,
+      "image": "lsstsqre/centos:6-packerprep",
+      "pull": false,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "sqre/centos:7-packerprep",
-      "pull": true,
+      "image": "lsstsqre/centos:7-packerprep",
+      "pull": false,
       "commit": true
     },
     {
@@ -43,47 +43,57 @@
     {
       "type": "shell",
       "inline": [
-        "sudo sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers",
         "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
       ]
     },
     {
       "type": "puppet-masterless",
        "manifest_file": "manifests/default.pp",
-       "module_paths": ["./modules"]
+       "module_paths": ["./modules"],
+       "facter": {
+         "lsst_stack_path": "{{user `stack_path`}}"
+       }
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ]
     }
   ],
   "post-processors": [
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "6-newinstall-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "6-newinstall",
       "force": "true"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "7-newinstall-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "7-newinstall",
       "force": "true"
     }
   ],
   "variables": {
-    "build_timestamp": "{{isotime \"20060102150405\"}}"
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "stack_path": "/opt/lsst/software/stack"
   }
 }

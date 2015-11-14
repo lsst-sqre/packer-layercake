@@ -3,15 +3,15 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "sqre/centos:6-newinstall",
-      "pull": true,
+      "image": "lsstsqre/centos:6-newinstall",
+      "pull": false,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "sqre/centos:7-newinstall",
-      "pull": true,
+      "image": "lsstsqre/centos:7-newinstall",
+      "pull": false,
       "commit": true
     },
     {
@@ -19,7 +19,7 @@
       "type": "openstack",
       "ssh_username": "vagrant",
       "image_name": "centos-6-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
-      "source_image": "87993da1-e7b3-48ea-830f-bd17736904ac",
+      "source_image": "21cfc1d3-2abe-4e5a-81d5-e2304af0572a",
       "use_floating_ip": true,
       "floating_ip_pool": "ext-net",
       "security_groups": ["default", "remote SSH"],
@@ -31,7 +31,7 @@
       "type": "openstack",
       "ssh_username": "vagrant",
       "image_name": "centos-7-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
-      "source_image": "53083136-92e8-4e0f-99f7-1b1df69665e1",
+      "source_image": "02dc7161-8487-4d2e-a4f9-9e798ed9530d",
       "use_floating_ip": true,
       "floating_ip_pool": "ext-net",
       "security_groups": ["default", "remote SSH"],
@@ -42,12 +42,33 @@
   "provisioners":[
     {
       "type": "shell",
+      "only": ["openstack-centos-6", "openstack-centos-7"],
       "environment_vars": [
         "TAG={{user `tag`}}",
-        "PRODUCTS={{user `products`}}"
+        "PRODUCTS={{user `products`}}",
+        "STACK_PATH={{user `stack_path`}}"
       ],
       "scripts": [
         "scripts/build.sh"
+      ]
+    },
+    {
+      "type": "shell",
+      "only": ["docker-centos-6", "docker-centos-7"],
+      "environment_vars": [
+        "TAG={{user `tag`}}",
+        "PRODUCTS={{user `products`}}",
+        "STACK_PATH={{user `stack_path`}}"
+      ],
+      "scripts": [
+        "scripts/root-build.sh"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
       ]
     }
   ],
@@ -55,34 +76,35 @@
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "6-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "6-stack-{{user `products`}}-{{user `tag`}}",
       "force": "true"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "7-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "7-stack-{{user `products`}}-{{user `tag`}}",
       "force": "true"
     }
   ],
   "variables": {
     "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "stack_path": "/opt/lsst/software/stack",
     "tag": "",
     "products": "lsst_apps"
   }

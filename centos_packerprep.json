@@ -19,8 +19,14 @@
       "type": "shell",
       "inline": [
         "yum install -y wget sudo",
-        "sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers",
-        "yum clean all"
+        "sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
       ]
     }
   ],
@@ -28,28 +34,28 @@
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "6-packerprep-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "6-packerprep",
       "force": "true"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "7-packerprep-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
-      "repository": "sqre/centos",
+      "repository": "lsstsqre/centos",
       "tag": "7-packerprep",
       "force": "true"
     }

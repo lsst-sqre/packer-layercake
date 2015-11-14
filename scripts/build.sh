@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -o errexit
 
 ARGS=()
@@ -14,5 +16,5 @@ if grep -q -i "CentOS release 6" /etc/redhat-release; then
 fi
 set +o verbose
 
-source ./stack/loadLSST.bash
+source ${STACK_PATH}/loadLSST.bash;
 eups distrib install "${ARGS[@]}"

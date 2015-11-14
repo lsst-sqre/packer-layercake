@@ -1,10 +1,7 @@
 include ::stdlib
 include ::augeas
-#include ::sysstat
+include ::sysstat
 include ::wget
-include ::lsststack
-
-Class['lsststack'] -> File['newinstall.sh']
 
 $stack_user  = $::lsst_stack_user ? {
   #undef   => 'lsstsw',
@@ -12,55 +9,16 @@ $stack_user  = $::lsst_stack_user ? {
   default => $::lsst_stack_user,
 }
 $stack_group = $stack_user
-$stack_path = "/home/${stack_user}/stack"
 
 $wheel_group = $::osfamily ? {
   'Debian' => 'sudo',
   default  => 'wheel',
 }
 
-case $::osfamily {
-  'Debian': {
-    $convience_pkgs = [
-      'screen',
-      'tree',
-      'vim'
-    ]
-  }
-  'RedHat': {
-    include ::epel
-    Class['epel'] -> Package<| provider == 'yum' |>
-
-    $convience_pkgs = [
-      'screen',
-      'tree',
-      'vim-enhanced'
-    ]
-
-    if $::operatingsystemmajrelease == '6' {
-      $epel = $::operatingsystemmajrelease ? {
-        '6'     => 'epel-6-x86_64',
-        default => undef,
-      }
-
-      yumrepo { "rhscl-devtoolset-3-${epel}":
-        ensure   => 'present',
-        baseurl  => "https://www.softwarecollections.org/repos/rhscl/devtoolset-3/${epel}",
-        descr    => "Devtoolset-3 - ${epel}",
-        enabled  => '1',
-        gpgcheck => '0',
-      }
-
-      package { ['devtoolset-3-gcc', 'devtoolset-3-gcc-c++']:
-        ensure  => present,
-        require => Yumrepo["rhscl-devtoolset-3-${epel}"],
-      }
-    }
-  }
-  default: { fail() }
+if $::osfamily == 'RedHat' {
+  include ::epel
+  Class['epel'] -> Package<| provider == 'yum' |>
 }
-
-package { $convience_pkgs: }
 
 user { $stack_user:
   ensure     => present,
@@ -73,42 +31,19 @@ group { $stack_group:
   ensure => present,
 }
 
-file { 'stack':
-  ensure  => directory,
-  owner   => $stack_user,
-  group   => $stack_group,
-  mode    => '0755',
-  path    => $stack_path,
-  #  require => Class['swap_file'],
+class { '::lsststack':
+  install_convenience => true,
 }
 
-wget::fetch { 'newinstall.sh':
-  source      => 'https://sw.lsstcorp.org/eupspkg/newinstall.sh',
-  destination => "${stack_path}/newinstall.sh",
-  execuser    => $stack_user,
-  timeout     => 60,
-  verbose     => true,
-  require     => File['stack'],
-}
+# prune off the destination dir so ::lsststack::newinstall may declare it
+$dirtree = dirtree($lsst_stack_path)
+$d = delete_at($dirtree, -1) # XXX replace with array slice nder puppet 4.x
+ensure_resource('file', $d, {'ensure' => 'directory'})
 
-file { 'newinstall.sh':
-  mode    => '0755',
-  path    => "${stack_path}/newinstall.sh",
-  require => Wget::Fetch['newinstall.sh'],
-}
-
-exec { 'newinstall.sh':
-  environment => ["PWD=${stack_path}"],
-  command     => 'echo -e "yes\nyes" | newinstall.sh -c',
-  #if grep -q -i "CentOS release 6" /etc/redhat-release; then
-  #  . /opt/rh/devtoolset-3/enable
-  #fi
-  #provider    => 'shell',
-  path        => ['/bin', '/usr/bin', $stack_path],
-  cwd         => $stack_path,
-  user        => $stack_user,
-  logoutput   => true,
-  creates     => "${stack_path}/loadLSST.zsh",
-  timeout     => 900,
-  require     => File['newinstall.sh'],
+::lsststack::newinstall { $stack_user:
+  user         => $stack_user,
+  manage_user  => false,
+  group        => $stack_group,
+  manage_group => false,
+  stack_path   => $::lsst_stack_path,
 }
