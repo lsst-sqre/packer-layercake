@@ -4,13 +4,13 @@ set -o errexit
 
 bundle install
 bundle exec librarian-puppet install
-#./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
-#./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
+./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
+./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
 ./bin/packer build --only=docker-centos-6,docker-centos-7 -var tag=w_2015_45 -var products=lsst_apps centos_build.json
 # packer can't set the USER or WORKDIR on a container so we are using trivial
 # Dockerfiles that overwrite the short tag name (the one without the timestamp)
 # XXX this is non-idempotent
-docker build -t sqre/centos:6-stack-lsst_apps-w_2015_45 docker/centos-6/
-docker build -t sqre/centos:7-stack-lsst_apps-w_2015_45 docker/centos-7/
-docker push sqre/centos:6-stack-lsst_apps-w_2015_45
-docker push sqre/centos:7-stack-lsst_apps-w_2015_45
+docker build -t lsstsqre/centos:6-stack-lsst_apps-w_2015_45 docker/centos-6/
+docker build -t lsstsqre/centos:7-stack-lsst_apps-w_2015_45 docker/centos-7/
+docker push lsstsqre/centos:6-stack-lsst_apps-w_2015_45
+docker push lsstsqre/centos:7-stack-lsst_apps-w_2015_45
