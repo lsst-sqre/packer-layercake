@@ -1,0 +1,34 @@
+{
+  "builders":[
+    {
+      "name": "openstack-centos-7",
+      "type": "openstack",
+      "ssh_username": "vagrant",
+      "image_name": "centos-7-docker-{{user `build_timestamp`}}",
+      "source_image": "3c48fc0c-a390-49be-8304-2ff7f2210345",
+      "use_floating_ip": true,
+      "floating_ip_pool": "ext-net",
+      "security_groups": ["default", "remote SSH"],
+      "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
+      "flavor": "m1.medium"
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/install-docker.sh"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ]
+    }
+  ],
+  "variables": {
+    "build_timestamp": "{{isotime \"20060102150405\"}}"
+  }
+}
