@@ -5,5 +5,5 @@ set -o errexit
 bundle install
 bundle exec librarian-puppet install
 # XXX the output of `newinstall` is not pipelined as the input to `build`
-#./bin/packer build --except=docker-centos-6,docker-centos-7 centos_newinstall.json
-./bin/packer build --except=docker-centos-6,docker-centos-7 -var tag=w_2015_45 -var products=lsst_apps centos_build.json
+#./bin/packer build --only=openstack-centos-6,openstack-centos-7 centos_newinstall.json
+./bin/packer build --only=openstack-centos-6,openstack-centos-7 -var tag=w_2015_45 -var products=lsst_apps centos_build.json
