@@ -37,6 +37,38 @@
       "security_groups": ["default", "remote SSH"],
       "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
       "flavor": "m1.medium"
+    },
+    {
+      "name": "aws-centos-6",
+      "type": "amazon-ebs",
+      "ami_name": "centos-6-newinstall-{{user `build_timestamp`}}",
+      "instance_type": "c4.2xlarge",
+      "region": "{{user `aws_default_region`}}",
+      "source_ami": "{{user `source_ami`}}",
+      "ssh_pty": true,
+      "ssh_username": "vagrant",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2"
+        }
+      ]
+    },
+    {
+      "name": "aws-centos-7",
+      "type": "amazon-ebs",
+      "ami_name": "centos-7-newinstall-{{user `build_timestamp`}}",
+      "instance_type": "c4.2xlarge",
+      "region": "{{user `aws_default_region`}}",
+      "source_ami": "{{user `source_ami`}}",
+      "ssh_pty": true,
+      "ssh_username": "vagrant",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2"
+        }
+      ]
     }
   ],
   "provisioners":[
@@ -94,6 +126,8 @@
   ],
   "variables": {
     "build_timestamp": "{{isotime \"20060102150405\"}}",
-    "stack_path": "/opt/lsst/software/stack"
+    "stack_path": "/opt/lsst/software/stack",
+    "aws_default_region": "us-east-1",
+    "source_ami": ""
   }
 }
