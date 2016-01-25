@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# creates the el5 base container for building conda packages
+
+set -o errexit
+
+bundle install
+bundle exec librarian-puppet install
+./bin/packer build conda_base.json
+docker build -t lsstsqre/centos:5-conda-base docker/conda-base/
+docker push lsstsqre/centos:5-conda-base
