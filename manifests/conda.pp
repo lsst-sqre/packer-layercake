@@ -36,6 +36,8 @@ group { $stack_group:
 # * git is only provided by epel5
 # * libcurl-devel is named curl-devel
 # * java 1.8.0 is not available
+# * the conda-recipes glib package, which is needed by mysqlproxy, requires
+#   unxz to unpack the tarball
 package {[
   'bison',
   'curl',
@@ -65,6 +67,7 @@ package {[
   'curl-devel',
   'git',
   'e2fsprogs-devel',
+  'xz',
 ]:
   ensure  => present,
   require =>  Class['epel'],
