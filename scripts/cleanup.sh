@@ -14,4 +14,4 @@ find  /home/ -maxdepth 2 -type d -name .ssh -exec rm -rf {} \;
 
 # per https://aws.amazon.com/articles/0155828273219400
 find /root/.*history /home/*/.*history -exec rm -f {} \; || true
-find /home/*/.*ssh -name "authorized_keys" –exec rm –f {} \; || true
+find /home/*/.*ssh -name "authorized_keys" -exec rm -f {} \; || true
