@@ -2,8 +2,11 @@
 
 set -o errexit
 
+TAG=${TAG:-w_2016_05}
+PRODUCTS=${PRODUCTS:-lsst_distrib}
+
 bundle install
 bundle exec librarian-puppet install
 # XXX the output of `newinstall` is not pipelined as the input to `build`
 #./bin/packer build --only=openstack-centos-6,openstack-centos-7 centos_newinstall.json
-./bin/packer build --only=openstack-centos-6,openstack-centos-7 -var tag=w_2015_45 -var products=lsst_apps centos_build.json
+./bin/packer build --only=openstack-centos-6,openstack-centos-7 -var tag="$TAG" -var products="$PRODUCTS" centos_build.json

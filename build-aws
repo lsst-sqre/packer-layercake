@@ -2,6 +2,9 @@
 
 set -o errexit
 
+TAG=${TAG:-w_2016_05}
+PRODUCTS=${PRODUCTS:-lsst_distrib}
+
 # a clean centos 6/7 ami must be built external to aws and uploaded in order to
 # make any derivative amis public
 
@@ -10,4 +13,4 @@ bundle exec librarian-puppet install
 # XXX the output of `newinstall` is not pipelined as the input to `build`
 # XXX only el6 or el7 can be run at a time since the souce_ami variable is used by both builders
 ./bin/packer build --only=aws-centos-6 --var source_ami=ami-021b5c68 centos_newinstall.json
-./bin/packer build --only=aws-centos-6 --var source_ami=ami-fc2f6896 --var products=lsst_apps --var tag=w_2015_45 centos_build.json
+./bin/packer build --only=aws-centos-6 --var source_ami=ami-fc2f6896 --var products="$PRODUCTS" --var tag="${TAG}" centos_build.json
