@@ -24,7 +24,7 @@
       "floating_ip_pool": "ext-net",
       "security_groups": ["default", "remote SSH"],
       "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
-      "flavor": "m1.medium"
+      "flavor": "m4.large"
     },
     {
       "name": "openstack-centos-7",
@@ -36,7 +36,7 @@
       "floating_ip_pool": "ext-net",
       "security_groups": ["default", "remote SSH"],
       "networks": ["fc77a88d-a9fb-47bb-a65d-39d1be7a7174"],
-      "flavor": "m1.medium"
+      "flavor": "m4.large"
     },
     {
       "name": "aws-centos-6",
