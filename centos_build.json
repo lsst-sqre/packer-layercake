@@ -19,7 +19,7 @@
       "type": "openstack",
       "ssh_username": "vagrant",
       "image_name": "centos-6-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
-      "source_image": "02dc7161-8487-4d2e-a4f9-9e798ed9530d",
+      "source_image": "{{user `openstack-centos-6-source_image`}}",
       "use_floating_ip": true,
       "floating_ip_pool": "ext-net",
       "security_groups": ["default", "remote SSH"],
@@ -31,7 +31,7 @@
       "type": "openstack",
       "ssh_username": "vagrant",
       "image_name": "centos-7-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
-      "source_image": "21cfc1d3-2abe-4e5a-81d5-e2304af0572a",
+      "source_image": "{{user `openstack-centos-7-source_image`}}",
       "use_floating_ip": true,
       "floating_ip_pool": "ext-net",
       "security_groups": ["default", "remote SSH"],
@@ -155,6 +155,8 @@
     "tag": "",
     "products": "lsst_apps",
     "aws_default_region": "us-east-1",
-    "source_ami": ""
+    "source_ami": "",
+    "openstack-centos-6-source_image": "",
+    "openstack-centos-7-source_image": ""
   }
 }
