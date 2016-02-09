@@ -62,6 +62,34 @@ Update these repos:
 
 Then announce it to the [LSST DM] world.
 
+Docker containers
+---
+
+### Step 1
+
+    export TAG=w_2016_05
+    export PRODUCTS=lsst_distrib
+    ./build-docker build
+
+### Step 2
+
+Must be logged into a dockerhub account that can push to `lsstsqre`.
+
+    docker login
+    ....
+
+Push final container images
+
+    ./build-docker push
+
+### Step 3
+
+Update these repos:
+
+* https://github.com/lsst-sqre/sqr-002
+
+Then announce it to the [LSST DM] world.
+
 
 Work-in-progress QEMU->Nebula upload instructions
 =================================================
