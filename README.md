@@ -63,6 +63,14 @@ Update these repos:
 Then announce it to the [LSST DM] world.
 
 
+Work-in-progress QEMU->Nebula upload instructions
+=================================================
+
+    openstack image create --container-format bare --disk-format qcow2 --min-disk 0 --min-ram 0 --file packer-centos-7.1-x86_64-20151120221107-qemu/centos-7.1-x86_64-20151120221107 packer-centos-7.1-x86_64-20151120221107-qemu
+
+    openstack image create --container-format bare --disk-format qcow2 --min-disk 0 --min-ram 0 --file packer-centos-6.7-x86_64-20151120221334-qemu/centos-6.7-x86_64-20151120221334 packer-centos-6.7-x86_64-20151120221334-qemu
+
+
 Work-in-progress AWS instructions
 =================================
 
