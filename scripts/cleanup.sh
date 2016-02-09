@@ -1,6 +1,7 @@
 #!/bin/bash -eux
 
-rm -f /etc/udev/rules.d/70-persistent-net.rules;
+# this has apparently become a dir
+rm -rf /etc/udev/rules.d/70-persistent-net.rules;
 yum -y clean all
 
 # cleanup centos user account (if it exists)
