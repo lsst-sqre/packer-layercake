@@ -1,3 +1,71 @@
+packer-newinstall
+=================
+
+__Notice: This package is not presently intended to be of value to any party
+external to the LSST DM/SQRE group.__
+
+Packer recipes for building VM and container images with a complete LSST DM
+"stack" install based on the
+[`newinstall`](https://github.com/lsst/lsst/blob/master/scripts/newinstall.sh)
+bootstrap process with the individual packages built from `eups distrib`.  The
+intent is to closely replicate the process a down-stream consumer of LSST DM
+software products would use.
+
+Openstack/Nebula Images
+---
+
+__At present, Nebula images are based on "published" Centos 6/7 images provided
+for end users.  In the future, this will be replaced with a packer generated
+qemu image that is uploaded to Nebula.__
+
+### Step 0
+
+Source the `LSST-openrc.sh` step script so that the env vars necessary for
+`packer` to communicate with openstack/nebula are present.
+
+### Step 1
+
+Build base images suitable for usage by vagrant with jhoblitt's fork of `bento`.
+
+    git clone git@github.com:jhoblitt/bento.git -b builder/aws
+    cd bento
+    git checkout 2961070 # rebased on upstream bento @ 2016-02-05
+    make
+    ./packer/packer build --only=openstack ./centos-6.7-x86_64.json
+    ./packer/packer build --only=openstack ./centos-7.2-x86_64.json
+
+### Step 2
+
+Build `newinstall` base images that have all operating system prerequisites
+installed along with the basic `newinstall.sh` prepared build env.
+
+    export CENTOS6_IMAGE=<...>
+    export CENTOS7_IMAGE=<...>
+    ./build-openstack newinstall
+
+### Step 3
+
+Build the end-user consumable `stack` images with pre-build eups products.
+
+    export TAG=w_2016_05
+    export PRODUCTS=lsst_distrib
+    export CENTOS6_IMAGE=<...>
+    export CENTOS7_IMAGE=<...>
+    ./build-openstack build
+
+### Step 4
+
+Update these repos:
+
+* https://github.com/lsst-sqre/sqr-002
+* https://github.com/lsst-sqre/vagrant-nebula
+
+Then announce it to the [LSST DM] world.
+
+
+Work-in-progress AWS instructions
+=================================
+
 Building QEMU/KVM images with packer
 ---
 
