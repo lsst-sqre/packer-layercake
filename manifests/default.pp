@@ -15,6 +15,14 @@ $wheel_group = $::osfamily ? {
   default  => 'wheel',
 }
 
+class { 'sudo':
+  purge               => false,
+  config_file_replace => false,
+}
+sudo::conf { 'wheel':
+  content  => '%wheel ALL=(ALL) NOPASSWD: ALL',
+}
+
 if $::osfamily == 'RedHat' {
   include ::epel
   Class['epel'] -> Package<| provider == 'yum' |>
