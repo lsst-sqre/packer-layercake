@@ -2,8 +2,53 @@
 
 set -o errexit
 
+TAG=${TAG:-w_2016_05}
+PRODUCTS=${PRODUCTS:-lsst_distrib}
+# centos-6-vagrant-1454712801
+CENTOS6_IMAGE=${CENTOS6_IMAGE:-b155f2e0-9620-4e13-9163-3041935fbd13}
+# centos-7-vagrant-1454714529
+CENTOS7_IMAGE=${CENTOS7_IMAGE:-4db45c01-e9db-431b-81ae-d683a4a3c230}
+
+print_error() {
+    >&2 echo -e "$@"
+}
+
+usage() {
+    if [[ ! -z "$1" ]]; then
+        print_error "$0: $1"
+    fi
+    print_error
+    print_error "Usage: $0 <step>"
+    exit 1
+}
+
+if [[ $# -eq 0 ]]; then
+    usage "<step> option required"
+fi
+
+if [[ $# -gt 1 ]]; then
+    usage "only one option is allowed"
+fi
+
+case $1 in
+    newinstall | build)
+        STEP=$1
+        ;;
+    *)
+        [[ $# -gt 0 ]] && usage "Unknown option: $1"
+        ;;
+esac
+
+echo "building step: $STEP"
+
 bundle install
 bundle exec librarian-puppet install
-# XXX the output of `newinstall` is not pipelined as the input to `build`
-#./bin/packer build --only=openstack-centos-6,openstack-centos-7 centos_newinstall.json
-./bin/packer build --only=openstack-centos-6,openstack-centos-7 -var tag=w_2015_45 -var products=lsst_apps centos_build.json
+
+case $STEP in
+    newinstall)
+        ./bin/packer build --only=openstack-centos-6,openstack-centos-7 -var openstack-centos-6-source_image="$CENTOS6_IMAGE" -var openstack-centos-7-source_image="$CENTOS7_IMAGE" centos_newinstall.json
+        ;;
+    build)
+        ./bin/packer build --only=openstack-centos-6,openstack-centos-7 -var openstack-centos-6-source_image="$CENTOS6_IMAGE" -var openstack-centos-7-source_image="$CENTOS7_IMAGE" -var tag="$TAG" -var products="$PRODUCTS" centos_build.json
+        ;;
+esac

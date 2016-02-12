@@ -20,6 +20,14 @@ GIT
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
       puppetlabs-vcsrepo (< 1.3.0, >= 1.2.0)
 
+GIT
+  remote: https://github.com/pbyrne413/puppet-sudo
+  ref: 30feebf655c4966b96ae328c40c1a2dc144c2e66
+  sha: 30feebf655c4966b96ae328c40c1a2dc144c2e66
+  specs:
+    saz-sudo (3.0.10)
+      puppetlabs-stdlib (< 5.0.0, >= 2.3.0)
+
 DEPENDENCIES
   camptocamp-augeas (~> 1.4)
   jhoblitt-lsststack (>= 0)
@@ -27,5 +35,6 @@ DEPENDENCIES
   maestrodev-wget (~> 1.7)
   pltraining-dirtree (~> 0.2.2)
   puppetlabs-stdlib (>= 0)
+  saz-sudo (>= 0)
   stahnma-epel (~> 1.1)
 

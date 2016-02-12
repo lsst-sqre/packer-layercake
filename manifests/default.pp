@@ -15,6 +15,14 @@ $wheel_group = $::osfamily ? {
   default  => 'wheel',
 }
 
+class { 'sudo':
+  purge               => false,
+  config_file_replace => false,
+}
+sudo::conf { 'wheel':
+  content  => '%wheel ALL=(ALL) NOPASSWD: ALL',
+}
+
 if $::osfamily == 'RedHat' {
   include ::epel
   Class['epel'] -> Package<| provider == 'yum' |>
@@ -46,4 +54,5 @@ ensure_resource('file', $d, {'ensure' => 'directory'})
   group        => $stack_group,
   manage_group => false,
   stack_path   => $::lsst_stack_path,
+  source       => 'https://raw.githubusercontent.com/lsst/lsst/master/scripts/newinstall.sh',
 }
