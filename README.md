@@ -55,6 +55,12 @@ Build the end-user consumable `stack` images with pre-build eups products.
 
 ### Step 4
 
+Run the stack demo on an instance created from each new candidate image.
+
+See: http://sqr-002.lsst.io/en/latest/#running-the-stack-demo
+
+### Step 5
+
 Update these repos:
 
 * https://github.com/lsst-sqre/sqr-002
@@ -83,6 +89,12 @@ Push final container images
     ./build-docker push
 
 ### Step 3
+
+Run the stack demo on an instance created from each new candidate image.
+
+See: http://sqr-002.lsst.io/en/latest/#running-the-stack-demo
+
+### Step 4
 
 Update these repos:
 
