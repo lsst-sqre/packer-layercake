@@ -11,7 +11,7 @@ bootstrap process with the individual packages built from `eups distrib`.  The
 intent is to closely replicate the process a down-stream consumer of LSST DM
 software products would use.
 
-Openstack/Nebula Images
+OpenStack/Nebula Images
 ---
 
 __At present, Nebula images are based on "published" Centos 6/7 images provided
@@ -25,7 +25,8 @@ Source the `LSST-openrc.sh` step script so that the env vars necessary for
 
 ### Step 1
 
-Build base images suitable for usage by vagrant with jhoblitt's fork of `bento`.
+Build base images suitable for usage by vagrant with jhoblitt's fork of
+`bento`.
 
     git clone git@github.com:jhoblitt/bento.git -b builder/aws
     cd bento
@@ -34,18 +35,29 @@ Build base images suitable for usage by vagrant with jhoblitt's fork of `bento`.
     ./packer/packer build --only=openstack ./centos-6.7-x86_64.json
     ./packer/packer build --only=openstack ./centos-7.2-x86_64.json
 
+_The `bento` images only need to be [re-]recreated upon new features or major
+base OS changes.  Such as a new minor release._
+
 ### Step 2
 
 Build `newinstall` base images that have all operating system prerequisites
-installed along with the basic `newinstall.sh` prepared build env.
+installed along with the basic `newinstall.sh` prepared build env.  Here the
+`CENTOSX_IMAGE` env vars should be set to the UUID ID of the current `bento`
+base images.
 
     export CENTOS6_IMAGE=<...>
     export CENTOS7_IMAGE=<...>
     ./build-openstack newinstall
 
+_The `newinstall` images should be created when ever changes (directly or
+indirectly) occur to `newinstall.sh` or when new `bento` images have been
+generated._
+
 ### Step 3
 
-Build the end-user consumable `stack` images with pre-build eups products.
+Build the end-user consumable `stack` images with pre-build eups products.  The
+`CENTOSX_IMAGE` env bars need to be updated to the UUID of the `newinstall`
+generated images.
 
     export TAG=w_2016_05
     export PRODUCTS=lsst_distrib
@@ -59,6 +71,10 @@ Run the stack demo on an instance created from each new candidate image.
 
 See: http://sqr-002.lsst.io/en/latest/#running-the-stack-demo
 
+This may be conveniently accomplished by cloning the
+https://github.com/lsst-sqre/vagrant-nebula.git repo and updating the UUIDs for
+the `el6` and `el7` boxes.
+
 ### Step 5
 
 Update these repos:
@@ -66,41 +82,58 @@ Update these repos:
 * https://github.com/lsst-sqre/sqr-002
 * https://github.com/lsst-sqre/vagrant-nebula
 
-Then announce it to the [LSST DM] world.
+Then announce it to the [LSST DM] world via `community.lsst.org` and on the
+hipchat `square` and `nebula` channels.
+
 
 Docker containers
 ---
 
+### Step 0
+
+Log into a dockerhub account that is a member of the `lsstsqre` organization.
+
+    docker login
+    ....
+
 ### Step 1
+
+Build the intermediate `newinstall` images.
+
+    ./build-docker newinstall
+
+_The `newinstall` images should be created when ever changes (directly or
+indirectly) occur to `newinstall.sh` or when new `bento` images have been
+generated._
+
+### Step 2
+
+Build the `stack` consumable images.
 
     export TAG=w_2016_05
     export PRODUCTS=lsst_distrib
     ./build-docker build
 
-### Step 2
-
-Must be logged into a dockerhub account that can push to `lsstsqre`.
-
-    docker login
-    ....
+### Step 3
 
 Push final container images
 
     ./build-docker push
 
-### Step 3
+### Step 4
 
-Run the stack demo on an instance created from each new candidate image.
+Run the stack demo on a container created from each new candidate image.
 
 See: http://sqr-002.lsst.io/en/latest/#running-the-stack-demo
 
-### Step 4
+### Step 5
 
 Update these repos:
 
 * https://github.com/lsst-sqre/sqr-002
 
-Then announce it to the [LSST DM] world.
+Then announce it to the [LSST DM] world via `community.lsst.org` and on the
+hipchat `square` channel.
 
 
 Work-in-progress QEMU->Nebula upload instructions
