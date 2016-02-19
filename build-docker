@@ -33,7 +33,7 @@ if [[ $# -gt 1 ]]; then
 fi
 
 case $1 in
-    build | push)
+    newinstall | build | push)
         STEP=$1
         ;;
     *)
@@ -45,13 +45,19 @@ echo "building step: $STEP"
 
 
 case $STEP in
-    build)
+    newinstall)
         make
         bundle install
         bundle exec librarian-puppet install
 
         ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
         ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
+        ;;
+    build)
+        make
+        bundle install
+        bundle exec librarian-puppet install
+
         ./bin/packer build --only=docker-centos-6,docker-centos-7 -var tag="$TAG" -var products="$PRODUCTS" centos_build.json
 
         # packer can't set the USER or WORKDIR on a container so we are using trivial
