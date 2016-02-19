@@ -122,8 +122,9 @@ In theory, these images can both be uploaded to aws and openstack/nebula.
 from bento repos on the `builder/aws` branch
 
 (source AMI credentials in env)
-./bin/packer build --only=qemu --var headless=true centos-7.1-x86_64.json
-./bin/packer build --only=qemu --var headless=true centos-6.7-x86_64.json
+
+    ./bin/packer build --only=qemu --var headless=true centos-7.1-x86_64.json
+    ./bin/packer build --only=qemu --var headless=true centos-6.7-x86_64.json
 
 Upload a QEMU/KVM image to EC2 as the image of a shutdown instance
 ---
@@ -132,10 +133,12 @@ After the upload/import completes, the instance can be converted to an ami.
 
 See: https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ApiReference-cmd-ImportInstance.html
 
-Note that the destination instance type is restricted.  See: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/VMImportTroubleshooting.html#LinuxNotSupported
+Note that the destination instance type is restricted.  See:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/VMImportTroubleshooting.html#LinuxNotSupported
 
 (build kvm images with packer/bento)
 
+```
 wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
 unzip ec2-api-tools.zip
 export EC2_HOME=`pwd`/ec2-api-tools-1.7.5.1
@@ -203,6 +206,7 @@ final "product"
 aws ec2 modify-image-attribute --image-id $IMAGE_ID --launch-permission "{\"Add\":[{\"Group\":\"all\"}]}"
 
 aws ec2 describe-image-attribute --image-id $IMAGE_ID --attribute launchPermission
+```
 
 
 Upload a QEMU/KVM image directly as a volume
@@ -210,13 +214,13 @@ Upload a QEMU/KVM image directly as a volume
 
 See: https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ApiReference-cmd-ImportVolume.html
 
-qemu-img convert -f qcow2 -O raw packer-centos-6.7-x86_64-qemu/centos-6.7-x86_64 packer-centos-6.7-x86_64-qemu/centos-6.7-x86_64.raw
+    qemu-img convert -f qcow2 -O raw packer-centos-6.7-x86_64-qemu/centos-6.7-x86_64 packer-centos-6.7-x86_64-qemu/centos-6.7-x86_64.raw
 
-./ec2-api-tools-1.7.5.1/bin/ec2-import-volume packer-centos-6.7-x86_64-qemu/centos-6.7-x8 bucketmantakemetoouterspace --owner-akid $AWS_ACCESS_KEY_ID --owner-sak $AWS_SECRET_ACCESS_KEY --region us-east-1
+    ./ec2-api-tools-1.7.5.1/bin/ec2-import-volume packer-centos-6.7-x86_64-qemu/centos-6.7-x8 bucketmantakemetoouterspace --owner-akid $AWS_ACCESS_KEY_ID --owner-sak $AWS_SECRET_ACCESS_KEY --region us-east-1
 
-./ec2-api-tools-1.7.5.1/bin/ec2-describe-conversion-tasks
+    ./ec2-api-tools-1.7.5.1/bin/ec2-describe-conversion-tasks
 
-# find VolumeId in output. Eg.
-# VolumeId vol-5d2785be
+    # find VolumeId in output. Eg.
+    # VolumeId vol-5d2785be
 
 **A volume has to be attached to an instance before it can be converted to an AMI (why?????)**
