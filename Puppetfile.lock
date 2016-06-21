@@ -4,16 +4,17 @@ FORGE
     camptocamp-augeas (1.4.2)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     jhoblitt-sysstat (1.1.0)
-    maestrodev-wget (1.7.1)
+    maestrodev-wget (1.7.3)
     pltraining-dirtree (0.2.2)
-    puppetlabs-stdlib (4.9.0)
+    puppetlabs-stdlib (4.12.0)
     puppetlabs-vcsrepo (1.2.0)
-    stahnma-epel (1.1.1)
+    stahnma-epel (1.2.2)
+      puppetlabs-stdlib (>= 3.0.0)
 
 GIT
-  remote: https://github.com/jhoblitt/puppet-lsststack.git
-  ref: e23c5f0a735263376548fba1bbf9e3f1e264bea7
-  sha: e23c5f0a735263376548fba1bbf9e3f1e264bea7
+  remote: https://github.com/lsst-sqre/puppet-lsststack.git
+  ref: 44dc389b4397d9bb2f7a6474f93726f82c6efe53
+  sha: 44dc389b4397d9bb2f7a6474f93726f82c6efe53
   specs:
     jhoblitt-lsststack (0.1.0)
       maestrodev-wget (< 1.8.0, >= 1.7.0)
