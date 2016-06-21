@@ -54,5 +54,4 @@ ensure_resource('file', $d, {'ensure' => 'directory'})
   group        => $stack_group,
   manage_group => false,
   stack_path   => $::lsst_stack_path,
-  source       => 'https://raw.githubusercontent.com/lsst/lsst/master/scripts/newinstall.sh',
 }
