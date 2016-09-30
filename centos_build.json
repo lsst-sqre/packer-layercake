@@ -132,7 +132,7 @@
       "only": ["docker-centos-6"],
       "repository": "lsstsqre/centos",
       "tag": "6-stack-{{user `products`}}-{{user `tag`}}",
-      "force": "true"
+      "force": "false"
     },
     {
       "type": "docker-tag",
@@ -146,7 +146,7 @@
       "only": ["docker-centos-7"],
       "repository": "lsstsqre/centos",
       "tag": "7-stack-{{user `products`}}-{{user `tag`}}",
-      "force": "true"
+      "force": "false"
     }
   ],
   "variables": {
