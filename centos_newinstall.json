@@ -80,7 +80,7 @@
     },
     {
       "type": "puppet-masterless",
-       "manifest_file": "manifests/default.pp",
+       "manifest_file": "manifests/newinstall.pp",
        "module_paths": ["./modules"],
        "facter": {
          "lsst_stack_path": "{{user `stack_path`}}"
