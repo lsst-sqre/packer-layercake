@@ -4,6 +4,7 @@
       "name": "docker-centos-7",
       "type": "docker",
       "image": "centos:7",
+      "pull": false,
       "commit": true
     },
     {
