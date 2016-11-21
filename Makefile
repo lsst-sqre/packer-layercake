@@ -1,6 +1,13 @@
+UNAME := $(shell uname -s | tr A-Z a-z)
 BIN_DIR=./bin
+VERSION=0.10.1
+NAME=packer
+ZIP_FILE=$(NAME)_$(VERSION)_$(UNAME)_amd64.zip
 
 $(BIN_DIR):
 	mkdir $@
-	cd $@; wget -nc https://releases.hashicorp.com/packer/0.8.6/packer_0.8.6_linux_amd64.zip
-	cd $@; unzip packer_0.8.6_linux_amd64.zip
+	cd $@; wget -nc https://releases.hashicorp.com/$(NAME)/$(VERSION)/$(ZIP_FILE)
+	cd $@; unzip $(ZIP_FILE)
+
+clean:
+	-rm -r $(BIN_DIR)

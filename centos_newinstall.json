@@ -80,7 +80,7 @@
     },
     {
       "type": "puppet-masterless",
-       "manifest_file": "manifests/default.pp",
+       "manifest_file": "manifests/newinstall.pp",
        "module_paths": ["./modules"],
        "facter": {
          "lsst_stack_path": "{{user `stack_path`}}"
@@ -107,7 +107,7 @@
       "only": ["docker-centos-6"],
       "repository": "lsstsqre/centos",
       "tag": "6-newinstall",
-      "force": "true"
+      "force": "false"
     },
     {
       "type": "docker-tag",
@@ -121,7 +121,7 @@
       "only": ["docker-centos-7"],
       "repository": "lsstsqre/centos",
       "tag": "7-newinstall",
-      "force": "true"
+      "force": "false"
     }
   ],
   "variables": {
