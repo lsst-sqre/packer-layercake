@@ -44,19 +44,20 @@ esac
 echo "building step: $STEP"
 
 
+setup() {
+    make
+    bundle install
+    bundle exec librarian-puppet install
+}
+
 case $STEP in
     newinstall)
-        make
-        bundle install
-        bundle exec librarian-puppet install
-
+        setup
         ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
         ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
         ;;
     build)
-        make
-        bundle install
-        bundle exec librarian-puppet install
+        setup
 
         ./bin/packer build --only=docker-centos-7 -var tag="$TAG" -var products="$PRODUCTS" centos_build.json
 
