@@ -33,7 +33,7 @@ if [[ $# -gt 1 ]]; then
 fi
 
 case $1 in
-    newinstall | build | push)
+    packerprep | newinstall | build | push)
         STEP=$1
         ;;
     *)
@@ -51,9 +51,12 @@ setup() {
 }
 
 case $STEP in
-    newinstall)
+    packerprep)
         setup
         ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
+        ;;
+    newinstall)
+        setup
         ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
         ;;
     build)
