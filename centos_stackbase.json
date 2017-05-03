@@ -1,0 +1,75 @@
+{
+  "builders":[
+    {
+      "name": "docker-centos-7",
+      "type": "docker",
+      "image": "lsstsqre/centos:7-{{user `parent_name`}}",
+      "pull": false,
+      "commit": true
+    },
+    {
+      "name": "docker-centos-6",
+      "type": "docker",
+      "image": "lsstsqre/centos:6-{{user `parent_name`}}",
+      "pull": false,
+      "commit": true
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "inline": [
+        "yum clean all -y",
+        "yum update -y",
+        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
+      ]
+    },
+    {
+      "type": "puppet-masterless",
+       "manifest_file": "manifests/stackbase.pp",
+       "module_paths": ["./modules"]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-6"],
+      "repository": "lsstsqre/centos",
+      "tag": "6-{{user `build_name`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-6"],
+      "repository": "lsstsqre/centos",
+      "tag": "6-{{user `build_name`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "lsstsqre/centos",
+      "tag": "7-{{user `build_name`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "lsstsqre/centos",
+      "tag": "7-{{user `build_name`}}",
+      "force": "false"
+    }
+  ],
+  "variables": {
+    "parent_name": "packerprep",
+    "build_name": "stackbase",
+    "build_timestamp": "{{isotime \"20060102150405\"}}"
+  }
+}
