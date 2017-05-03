@@ -3,14 +3,14 @@
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "centos:7",
+      "image": "docker.io/centos:7",
       "pull": false,
       "commit": true
     },
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "centos:6",
+      "image": "docker.io/centos:6",
       "pull": false,
       "commit": true
     }
