@@ -13,4 +13,4 @@ mod 'saz/sudo',
 #mod 'jhoblitt/lsststack', :git => 'https://github.com/lsst-sqre/puppet-lsststack.git'
 mod 'jhoblitt/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
-  :ref => '44dc389b4397d9bb2f7a6474f93726f82c6efe53'
+  :ref => 'a661ba5da65c28d07f2ecc3681f9d43424dbf8d3'
