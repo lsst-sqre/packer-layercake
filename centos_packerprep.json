@@ -36,32 +36,33 @@
       "type": "docker-tag",
       "only": ["docker-centos-6"],
       "repository": "lsstsqre/centos",
-      "tag": "6-packerprep-{{user `build_timestamp`}}",
+      "tag": "6-{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
       "repository": "lsstsqre/centos",
-      "tag": "6-packerprep",
+      "tag": "6-{{user `build_name`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
       "repository": "lsstsqre/centos",
-      "tag": "7-packerprep-{{user `build_timestamp`}}",
+      "tag": "7-{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
       "repository": "lsstsqre/centos",
-      "tag": "7-packerprep",
+      "tag": "7-{{user `build_name`}}",
       "force": "false"
     }
   ],
   "variables": {
+    "build_name": "packerprep",
     "build_timestamp": "{{isotime \"20060102150405\"}}"
   }
 }
