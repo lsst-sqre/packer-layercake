@@ -1,0 +1,67 @@
+{
+  "builders":[
+    {
+      "name": "docker-centos-7",
+      "type": "docker",
+      "image": "lsstsqre/centos:7-{{user `parent_name`}}",
+      "pull": false,
+      "commit": true
+    },
+    {
+      "name": "docker-centos-6",
+      "type": "docker",
+      "image": "lsstsqre/centos:6-{{user `parent_name`}}",
+      "pull": false,
+      "commit": true
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "environment_vars": [
+        "DEVTOOLSET_VERSION={{user `version`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/devtoolset.sh",
+        "scripts/cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-6"],
+      "repository": "lsstsqre/centos",
+      "tag": "6-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-6"],
+      "repository": "lsstsqre/centos",
+      "tag": "6-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "lsstsqre/centos",
+      "tag": "7-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker-centos-7"],
+      "repository": "lsstsqre/centos",
+      "tag": "7-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}",
+      "force": "false"
+    }
+  ],
+  "variables": {
+    "parent_name": "stackbase",
+    "build_prefix": "devtoolset",
+    "version": "6",
+    "build_timestamp": "{{isotime \"20060102150405\"}}"
+  }
+}
