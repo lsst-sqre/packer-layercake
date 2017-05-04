@@ -3,14 +3,14 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "lsstsqre/centos:6-packerprep",
+      "image": "lsstsqre/centos:6-{{user `parent_name`}}",
       "pull": false,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "lsstsqre/centos:7-packerprep",
+      "image": "lsstsqre/centos:7-{{user `parent_name`}}",
       "pull": false,
       "commit": true
     },
@@ -93,28 +93,28 @@
       "type": "docker-tag",
       "only": ["docker-centos-6"],
       "repository": "lsstsqre/centos",
-      "tag": "6-newinstall-{{user `build_timestamp`}}",
+      "tag": "6-{{user `parent_name`}}-{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-6"],
       "repository": "lsstsqre/centos",
-      "tag": "6-newinstall",
+      "tag": "6-{{user `parent_name`}}-{{user `build_name`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
       "repository": "lsstsqre/centos",
-      "tag": "7-newinstall-{{user `build_timestamp`}}",
+      "tag": "7-{{user `parent_name`}}-{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker-centos-7"],
       "repository": "lsstsqre/centos",
-      "tag": "7-newinstall",
+      "tag": "7-{{user `parent_name`}}-{{user `build_name`}}",
       "force": "false"
     }
   ],
@@ -122,6 +122,8 @@
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "stack_path": "/opt/lsst/software/stack",
     "aws_default_region": "us-east-1",
+    "parent_name": "stackbase-devtoolset-6",
+    "build_name": "newinstall",
     "source_ami": "",
     "openstack-centos-6-source_image": "",
     "openstack-centos-7-source_image": ""

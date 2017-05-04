@@ -40,7 +40,9 @@ group { $stack_group:
 }
 
 class { '::lsststack':
-  install_convenience => true,
+  install_dependencies => true,
+  install_convenience  => true,
+  manage_repos         => false,
 }
 
 # prune off the destination dir so ::lsststack::newinstall may declare it
