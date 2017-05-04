@@ -17,14 +17,6 @@
   ],
   "provisioners":[
     {
-      "type": "shell",
-      "inline": [
-        "yum clean all -y",
-        "yum update -y",
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
-      ]
-    },
-    {
       "type": "puppet-masterless",
        "manifest_file": "manifests/stackbase.pp",
        "module_paths": ["./modules"]

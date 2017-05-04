@@ -73,12 +73,6 @@
   ],
   "provisioners":[
     {
-      "type": "shell",
-      "inline": [
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
-      ]
-    },
-    {
       "type": "puppet-masterless",
        "manifest_file": "manifests/newinstall.pp",
        "module_paths": ["./modules"],

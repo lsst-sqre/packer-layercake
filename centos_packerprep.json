@@ -25,6 +25,14 @@
     },
     {
       "type": "shell",
+      "inline": [
+        "yum clean all -y",
+        "yum update -y",
+        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
+      ]
+    },
+    {
+      "type": "shell",
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/cleanup.sh"
