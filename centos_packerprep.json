@@ -67,6 +67,9 @@
       "repository": "lsstsqre/centos",
       "tag": "7-{{user `build_name`}}",
       "force": "false"
+    },
+    {
+      "type": "manifest"
     }
   ],
   "variables": {
