@@ -5,12 +5,6 @@ set -o errexit
 TAG=${TAG:-w_2016_05}
 PRODUCTS=${PRODUCTS:-lsst_distrib}
 
-DOCKERFILE_POST=$(cat <<'EOF'
-USER vagrant
-WORKDIR /home/vagrant
-EOF
-)
-
 print_error() {
     >&2 echo -e "$@"
 }
@@ -71,17 +65,6 @@ case $STEP in
         setup
 
         ./bin/packer build --only=docker-centos-7 -var tag="$TAG" -var products="$PRODUCTS" centos_build.json
-
-        # packer can't set the USER or WORKDIR on a container so we are using trivial
-        # Dockerfiles that overwrite the short tag name (the one without the timestamp)
-        # XXX this is non-idempotent
-        #echo "FROM lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}" > docker/centos-6/Dockerfile
-        #echo "$DOCKERFILE_POST" >> docker/centos-6/Dockerfile
-        #docker build -t "lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}" docker/centos-6/
-
-        echo "FROM lsstsqre/centos:7-stack-${PRODUCTS}-${TAG}" > docker/centos-7/Dockerfile
-        echo "$DOCKERFILE_POST" >> docker/centos-7/Dockerfile
-        docker build -t "lsstsqre/centos:7-stack-${PRODUCTS}-${TAG}" docker/centos-7/
         ;;
     push)
         docker push "lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}"

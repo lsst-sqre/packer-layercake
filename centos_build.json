@@ -5,14 +5,22 @@
       "type": "docker",
       "image": "lsstsqre/centos:6-stackbase-devtoolset-6-newinstall",
       "pull": false,
-      "commit": true
+      "commit": true,
+      "changes": [
+        "USER vagrant",
+        "WORKDIR /home/vagrant"
+      ]
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
       "image": "lsstsqre/centos:7-stackbase-devtoolset-6-newinstall",
       "pull": false,
-      "commit": true
+      "commit": true,
+      "changes": [
+        "USER vagrant",
+        "WORKDIR /home/vagrant"
+      ]
     },
     {
       "name": "openstack-centos-6",
