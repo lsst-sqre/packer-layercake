@@ -3,14 +3,14 @@
     {
       "name": "docker-centos-6",
       "type": "docker",
-      "image": "lsstsqre/centos:6-newinstall",
+      "image": "lsstsqre/centos:6-stackbase-devtoolset-6-newinstall",
       "pull": false,
       "commit": true
     },
     {
       "name": "docker-centos-7",
       "type": "docker",
-      "image": "lsstsqre/centos:7-newinstall",
+      "image": "lsstsqre/centos:7-stackbase-devtoolset-6-newinstall",
       "pull": false,
       "commit": true
     },
@@ -147,6 +147,9 @@
       "repository": "lsstsqre/centos",
       "tag": "7-stack-{{user `products`}}-{{user `tag`}}",
       "force": "false"
+    },
+    {
+      "type": "manifest"
     }
   ],
   "variables": {
