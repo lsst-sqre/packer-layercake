@@ -10,11 +10,5 @@ if [ ! -z "$TAG" ]; then
 fi
 ARGS+=("$PRODUCTS")
 
-set -o verbose
-if grep -q -i "CentOS release 6" /etc/redhat-release; then
-  . /opt/rh/devtoolset-3/enable
-fi
-set +o verbose
-
 source ${STACK_PATH}/loadLSST.bash;
 eups distrib install "${ARGS[@]}"
