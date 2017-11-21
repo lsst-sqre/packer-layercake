@@ -1,16 +1,9 @@
 {
   "builders":[
     {
-      "name": "docker-centos-7",
+      "name": "docker",
       "type": "docker",
-      "image": "lsstsqre/centos:7-{{user `parent_name`}}",
-      "pull": false,
-      "commit": true
-    },
-    {
-      "name": "docker-centos-6",
-      "type": "docker",
-      "image": "lsstsqre/centos:6-{{user `parent_name`}}",
+      "image": "{{user `base_image`}}",
       "pull": false,
       "commit": true
     }
@@ -32,30 +25,16 @@
   "post-processors": [
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-{{user `build_name`}}-{{user `build_timestamp`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-{{user `build_name`}}",
-      "force": "false"
-    },
-    {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-{{user `build_name`}}-{{user `build_timestamp`}}",
-      "force": "false"
-    },
-    {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-{{user `build_name`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}",
       "force": "false"
     },
     {
@@ -63,8 +42,9 @@
     }
   ],
   "variables": {
-    "parent_name": "packerprep",
-    "build_name": "stackbase",
+    "base_image": "docker.io/lsstsqre/centos:7-packerprep",
+    "build_repository": "docker.io/lsstsqre/centos",
+    "build_name": "7-stackbase",
     "build_timestamp": "{{isotime \"20060102150405\"}}"
   }
 }

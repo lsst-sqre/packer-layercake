@@ -47,24 +47,26 @@ setup() {
 case $STEP in
     packerprep)
         setup
-        ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
+        ./bin/packer build --only=docker centos_packerprep.json
         ;;
     stackbase)
         setup
-        ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_stackbase.json
+        ./bin/packer build --only=docker centos_stackbase.json
         ;;
     devtoolset)
         setup
-        ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_devtoolset.json
+        ./bin/packer build --only=docker centos_devtoolset.json
         ;;
     newinstall)
         setup
-        ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
+        ./bin/packer build --only=docker centos_newinstall.json
         ;;
     build)
         setup
-
-        ./bin/packer build --only=docker-centos-7 -var tag="$TAG" -var products="$PRODUCTS" centos_build.json
+        ./bin/packer build --only=docker \
+            -var tag="$TAG" \
+            -var products="$PRODUCTS" \
+            centos_build.json
         ;;
     push)
         docker push "lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}"

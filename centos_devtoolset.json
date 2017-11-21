@@ -1,16 +1,9 @@
 {
   "builders":[
     {
-      "name": "docker-centos-7",
+      "name": "docker",
       "type": "docker",
-      "image": "lsstsqre/centos:7-{{user `parent_name`}}",
-      "pull": false,
-      "commit": true
-    },
-    {
-      "name": "docker-centos-6",
-      "type": "docker",
-      "image": "lsstsqre/centos:6-{{user `parent_name`}}",
+      "image": "{{user `base_image`}}",
       "pull": false,
       "commit": true
     }
@@ -31,30 +24,16 @@
   "post-processors": [
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}",
-      "force": "false"
-    },
-    {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
-      "force": "false"
-    },
-    {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-{{user `parent_name`}}-{{user `build_prefix`}}-{{user `version`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}",
       "force": "false"
     },
     {
@@ -62,9 +41,10 @@
     }
   ],
   "variables": {
-    "parent_name": "stackbase",
-    "build_prefix": "devtoolset",
-    "version": "6",
-    "build_timestamp": "{{isotime \"20060102150405\"}}"
+    "base_image": "docker.io/lsstsqre/centos:7-stackbase",
+    "build_repository": "docker.io/lsstsqre/centos",
+    "build_name": "7-stackbase-devtoolset-6",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "version": "6"
   }
 }
