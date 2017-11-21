@@ -13,8 +13,8 @@ FORGE
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git
-  ref: a661ba5da65c28d07f2ecc3681f9d43424dbf8d3
-  sha: a661ba5da65c28d07f2ecc3681f9d43424dbf8d3
+  ref: f8ce1d8b435f53eb9f4a591f4572378988fb0d13
+  sha: f8ce1d8b435f53eb9f4a591f4572378988fb0d13
   specs:
     jhoblitt-lsststack (0.1.0)
       maestrodev-wget (< 1.8.0, >= 1.7.3)
