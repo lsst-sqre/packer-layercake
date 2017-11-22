@@ -47,7 +47,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  librarian-puppet
+  librarian-puppet (= 2.2.3)
   puppet (= 4.10.6)
 
 BUNDLED WITH
