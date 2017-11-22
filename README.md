@@ -1,4 +1,4 @@
-packer-newinstall
+packer-layercake
 =================
 
 __Notice: This package is not presently intended to be of value to any party
