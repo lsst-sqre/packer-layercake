@@ -1,0 +1,70 @@
+{
+  "builders":[
+    {
+      "name": "docker",
+      "type": "docker",
+      "image": "{{user `base_image`}}",
+      "pull": false,
+      "commit": true
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get update && apt-get install --no-install-recommends",
+        "mkdir -p /bundler"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "Gemfile",
+      "destination": "/bundler/Gemfile"
+    },
+    {
+      "type": "file",
+      "source": "Gemfile.lock",
+      "destination": "/bundler/Gemfile.lock"
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "LIBRARIAN_PUPPET_VERSION={{user `build_name`}}"
+      ],
+      "inline": [
+        "cd /bundler && bundle install --system --no-cache"
+      ]
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}",
+      "force": "false"
+    },
+    {
+      "type": "manifest"
+    }
+  ],
+  "variables": {
+    "base_image": "docker.io/ruby:2.4.2",
+    "build_repository": "docker.io/lsstsqre/cakepan",
+    "build_name": "2.2.3",
+    "build_timestamp": "{{isotime \"20060102150405\"}}"
+  }
+}
