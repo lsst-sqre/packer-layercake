@@ -14,7 +14,6 @@
       "environment_vars": [
         "DEVTOOLSET_VERSION={{user `version`}}"
       ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/devtoolset.sh",
         "scripts/cleanup.sh"
@@ -26,14 +25,14 @@
       "type": "docker-tag",
       "only": ["docker"],
       "repository": "{{user `build_repository`}}",
-      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker"],
       "repository": "{{user `build_repository`}}",
-      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}",
+      "tag": "{{user `build_name`}}",
       "force": "false"
     },
     {
