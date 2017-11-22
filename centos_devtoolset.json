@@ -14,7 +14,6 @@
       "environment_vars": [
         "DEVTOOLSET_VERSION={{user `version`}}"
       ],
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
         "scripts/devtoolset.sh",
         "scripts/cleanup.sh"

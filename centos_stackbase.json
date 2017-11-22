@@ -10,13 +10,28 @@
   ],
   "provisioners":[
     {
+      "type": "shell",
+      "inline": [
+        "yum clean all -y",
+        "yum update -y",
+        "curl -sSL https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet_agent.sh | bash -s -- -v 4.10.6"
+      ]
+    },
+    {
       "type": "puppet-masterless",
-       "manifest_file": "manifests/stackbase.pp",
-       "module_paths": ["./modules"]
+      "manifest_file": "manifests/stackbase.pp",
+      "module_paths": ["./modules"],
+      "prevent_sudo": true,
+      "puppet_bin_dir": "/opt/puppetlabs/puppet/bin"
     },
     {
       "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "inline": [
+        "yum remove -y puppetlabs-release-pc1 puppet-agent"
+      ]
+    },
+    {
+      "type": "shell",
       "scripts": [
         "scripts/cleanup.sh"
       ]
