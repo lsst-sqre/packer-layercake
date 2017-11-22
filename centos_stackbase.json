@@ -42,7 +42,7 @@
     }
   ],
   "variables": {
-    "base_image": "docker.io/lsstsqre/centos:7-packerprep",
+    "base_image": "docker.io/centos:7",
     "build_repository": "docker.io/lsstsqre/centos",
     "build_name": "7-stackbase",
     "build_timestamp": "{{isotime \"20060102150405\"}}"
