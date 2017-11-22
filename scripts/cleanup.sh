@@ -2,7 +2,13 @@
 
 # this has apparently become a dir
 rm -rf /etc/udev/rules.d/70-persistent-net.rules;
-yum -y clean all
+
+if [[ -e /etc/debian_version ]]; then
+    apt-get clean
+fi
+if [[ -e /etc/redhat-release ]]; then
+    yum -y clean all
+fi
 
 # cleanup centos user account (if it exists)
 if id -u centos > /dev/null 2>&1; then
