@@ -1,0 +1,46 @@
+{
+  "builders":[
+    {
+      "name": "docker",
+      "type": "docker",
+      "image": "{{user `base_image`}}",
+      "run_command": ["-d", "-i", "-t", "--entrypoint=/bin/sh", "{{.Image}}"],
+      "pull": false,
+      "commit": true
+    }
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "inline": [
+        "apk add docker",
+        "chmod u+s /usr/bin/docker"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
+      "force": "false"
+    },
+    {
+      "type": "docker-tag",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}",
+      "force": "false"
+    },
+    {
+      "type": "manifest"
+    }
+  ],
+  "variables": {
+    "base_image": "docker.io/hashicorp/packer:1.1.1",
+    "build_repository": "docker.io/lsstsqre/cakepacker",
+    "build_name": "1.1.1",
+    "build_timestamp": "{{isotime \"20060102150405\"}}"
+  }
+}
