@@ -26,14 +26,14 @@
       "type": "docker-tag",
       "only": ["docker"],
       "repository": "{{user `build_repository`}}",
-      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker"],
       "repository": "{{user `build_repository`}}",
-      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}",
+      "tag": "{{user `build_name`}}",
       "force": "false"
     },
     {
