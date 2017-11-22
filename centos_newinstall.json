@@ -1,16 +1,9 @@
 {
   "builders":[
     {
-      "name": "docker-centos-6",
+      "name": "docker",
       "type": "docker",
-      "image": "lsstsqre/centos:6-packerprep",
-      "pull": false,
-      "commit": true
-    },
-    {
-      "name": "docker-centos-7",
-      "type": "docker",
-      "image": "lsstsqre/centos:7-packerprep",
+      "image": "{{user `base_image`}}",
       "pull": false,
       "commit": true
     },
@@ -73,12 +66,6 @@
   ],
   "provisioners":[
     {
-      "type": "shell",
-      "inline": [
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
-      ]
-    },
-    {
       "type": "puppet-masterless",
        "manifest_file": "manifests/newinstall.pp",
        "module_paths": ["./modules"],
@@ -97,34 +84,26 @@
   "post-processors": [
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-newinstall-{{user `build_timestamp`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-newinstall",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}",
       "force": "false"
     },
     {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-newinstall-{{user `build_timestamp`}}",
-      "force": "false"
-    },
-    {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-newinstall",
-      "force": "false"
+      "type": "manifest"
     }
   ],
   "variables": {
+    "base_image": "docker.io/lsstsqre/centos:7-stackbase-devtoolset-6",
+    "build_repository": "docker.io/lsstsqre/centos",
+    "build_name": "7-newinstall",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "stack_path": "/opt/lsst/software/stack",
     "aws_default_region": "us-east-1",

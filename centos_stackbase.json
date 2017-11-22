@@ -10,19 +10,9 @@
   ],
   "provisioners":[
     {
-      "type": "shell",
-      "inline": [
-        "yum install -y wget sudo",
-        "sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "yum clean all -y",
-        "yum update -y",
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
-      ]
+      "type": "puppet-masterless",
+       "manifest_file": "manifests/stackbase.pp",
+       "module_paths": ["./modules"]
     },
     {
       "type": "shell",
@@ -52,9 +42,9 @@
     }
   ],
   "variables": {
-    "base_image": "docker.io/centos:7",
+    "base_image": "docker.io/lsstsqre/centos:7-packerprep",
     "build_repository": "docker.io/lsstsqre/centos",
-    "build_name": "7-packerprep",
+    "build_name": "7-stackbase",
     "build_timestamp": "{{isotime \"20060102150405\"}}"
   }
 }

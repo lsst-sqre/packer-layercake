@@ -1,18 +1,15 @@
 {
   "builders":[
     {
-      "name": "docker-centos-6",
+      "name": "docker",
       "type": "docker",
-      "image": "lsstsqre/centos:6-newinstall",
+      "image": "{{user `base_image`}}",
       "pull": false,
-      "commit": true
-    },
-    {
-      "name": "docker-centos-7",
-      "type": "docker",
-      "image": "lsstsqre/centos:7-newinstall",
-      "pull": false,
-      "commit": true
+      "commit": true,
+      "changes": [
+        "USER vagrant",
+        "WORKDIR /home/vagrant"
+      ]
     },
     {
       "name": "openstack-centos-6",
@@ -101,7 +98,7 @@
     },
     {
       "type": "shell",
-      "only": ["docker-centos-6", "docker-centos-7"],
+      "only": ["docker"],
       "environment_vars": [
         "TAG={{user `tag`}}",
         "PRODUCTS={{user `products`}}",
@@ -122,37 +119,29 @@
   "post-processors": [
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
-      "only": ["docker-centos-6"],
-      "repository": "lsstsqre/centos",
-      "tag": "6-stack-{{user `products`}}-{{user `tag`}}",
+      "only": ["docker"],
+      "repository": "{{user `build_repository`}}",
+      "tag": "{{user `build_name`}}",
       "force": "false"
     },
     {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-stack-{{user `products`}}-{{user `tag`}}-{{user `build_timestamp`}}",
-      "force": "false"
-    },
-    {
-      "type": "docker-tag",
-      "only": ["docker-centos-7"],
-      "repository": "lsstsqre/centos",
-      "tag": "7-stack-{{user `products`}}-{{user `tag`}}",
-      "force": "false"
+      "type": "manifest"
     }
   ],
   "variables": {
+    "base_image": "docker.io/lsstsqre/centos:7-newinstall",
+    "build_repository": "docker.io/lsstsqre/centos",
+    "build_name": "7-stack-lsst_apps-w_2017_45",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "stack_path": "/opt/lsst/software/stack",
-    "tag": "",
+    "tag": "w_2017_45",
     "products": "lsst_apps",
     "aws_default_region": "us-east-1",
     "source_ami": "",

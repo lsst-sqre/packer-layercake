@@ -10,7 +10,6 @@ mod 'saz/sudo',
   :git => 'https://github.com/pbyrne413/puppet-sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 
-#mod 'jhoblitt/lsststack', :git => 'https://github.com/lsst-sqre/puppet-lsststack.git'
 mod 'jhoblitt/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
-  :ref => '44dc389b4397d9bb2f7a6474f93726f82c6efe53'
+  :ref => 'f8ce1d8b435f53eb9f4a591f4572378988fb0d13'

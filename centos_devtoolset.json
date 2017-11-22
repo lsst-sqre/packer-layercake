@@ -11,23 +11,12 @@
   "provisioners":[
     {
       "type": "shell",
-      "inline": [
-        "yum install -y wget sudo",
-        "sed -i 's/^.*requiretty/#Defaults requiretty/' /etc/sudoers"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "yum clean all -y",
-        "yum update -y",
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
-      ]
-    },
-    {
-      "type": "shell",
+      "environment_vars": [
+        "DEVTOOLSET_VERSION={{user `version`}}"
+      ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
+        "scripts/devtoolset.sh",
         "scripts/cleanup.sh"
       ]
     }
@@ -37,14 +26,14 @@
       "type": "docker-tag",
       "only": ["docker"],
       "repository": "{{user `build_repository`}}",
-      "tag": "{{user `build_name`}}-{{user `build_timestamp`}}",
+      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}-{{user `build_timestamp`}}",
       "force": "false"
     },
     {
       "type": "docker-tag",
       "only": ["docker"],
       "repository": "{{user `build_repository`}}",
-      "tag": "{{user `build_name`}}",
+      "tag": "{{user `build_name`}}-{{user `build_prefix`}}-{{user `version`}}",
       "force": "false"
     },
     {
@@ -52,9 +41,10 @@
     }
   ],
   "variables": {
-    "base_image": "docker.io/centos:7",
+    "base_image": "docker.io/lsstsqre/centos:7-stackbase",
     "build_repository": "docker.io/lsstsqre/centos",
-    "build_name": "7-packerprep",
-    "build_timestamp": "{{isotime \"20060102150405\"}}"
+    "build_name": "7-stackbase-devtoolset-6",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "version": "6"
   }
 }

@@ -5,12 +5,6 @@ set -o errexit
 TAG=${TAG:-w_2016_05}
 PRODUCTS=${PRODUCTS:-lsst_distrib}
 
-DOCKERFILE_POST=$(cat <<'EOF'
-USER vagrant
-WORKDIR /home/vagrant
-EOF
-)
-
 print_error() {
     >&2 echo -e "$@"
 }
@@ -33,7 +27,7 @@ if [[ $# -gt 1 ]]; then
 fi
 
 case $1 in
-    newinstall | build | push)
+    packerprep | stackbase | devtoolset | newinstall | build | push)
         STEP=$1
         ;;
     *)
@@ -44,32 +38,35 @@ esac
 echo "building step: $STEP"
 
 
-case $STEP in
-    newinstall)
-        make
-        bundle install
-        bundle exec librarian-puppet install
+setup() {
+    make
+    bundle install
+    bundle exec librarian-puppet install
+}
 
-        ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_packerprep.json
-        ./bin/packer build --only=docker-centos-6,docker-centos-7 centos_newinstall.json
+case $STEP in
+    packerprep)
+        setup
+        ./bin/packer build --only=docker centos_packerprep.json
+        ;;
+    stackbase)
+        setup
+        ./bin/packer build --only=docker centos_stackbase.json
+        ;;
+    devtoolset)
+        setup
+        ./bin/packer build --only=docker centos_devtoolset.json
+        ;;
+    newinstall)
+        setup
+        ./bin/packer build --only=docker centos_newinstall.json
         ;;
     build)
-        make
-        bundle install
-        bundle exec librarian-puppet install
-
-        ./bin/packer build --only=docker-centos-7 -var tag="$TAG" -var products="$PRODUCTS" centos_build.json
-
-        # packer can't set the USER or WORKDIR on a container so we are using trivial
-        # Dockerfiles that overwrite the short tag name (the one without the timestamp)
-        # XXX this is non-idempotent
-        #echo "FROM lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}" > docker/centos-6/Dockerfile
-        #echo "$DOCKERFILE_POST" >> docker/centos-6/Dockerfile
-        #docker build -t "lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}" docker/centos-6/
-
-        echo "FROM lsstsqre/centos:7-stack-${PRODUCTS}-${TAG}" > docker/centos-7/Dockerfile
-        echo "$DOCKERFILE_POST" >> docker/centos-7/Dockerfile
-        docker build -t "lsstsqre/centos:7-stack-${PRODUCTS}-${TAG}" docker/centos-7/
+        setup
+        ./bin/packer build --only=docker \
+            -var tag="$TAG" \
+            -var products="$PRODUCTS" \
+            centos_build.json
         ;;
     push)
         docker push "lsstsqre/centos:6-stack-${PRODUCTS}-${TAG}"

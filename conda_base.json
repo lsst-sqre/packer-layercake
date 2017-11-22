@@ -3,7 +3,7 @@
     {
       "name": "docker-centos-5",
       "type": "docker",
-      "image": "centos:5",
+      "image": "docker.io/centos:5",
       "pull": false,
       "commit": true
     }
