@@ -5,7 +5,8 @@ include ::wget
 
 if $::osfamily == 'RedHat' {
   include ::epel
-  Class['epel'] -> Package<| provider == 'yum' |>
+  Class['::epel'] -> Package<| provider == 'yum' |>
+  Class['::epel'] -> Class['::lsststack']
 }
 
 class { '::lsststack':
