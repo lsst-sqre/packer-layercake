@@ -8,6 +8,7 @@ if [[ -e /etc/debian_version ]]; then
 fi
 if [[ -e /etc/redhat-release ]]; then
     yum -y clean all
+    rm -rf /var/cache/yum
 fi
 
 # cleanup centos user account (if it exists)
