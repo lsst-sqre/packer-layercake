@@ -6,14 +6,17 @@
       "image": "{{user `base_image`}}",
       "run_command": ["-d", "-i", "-t", "--entrypoint=/bin/sh", "{{.Image}}"],
       "pull": false,
-      "commit": true
+      "commit": true,
+      "changes": [
+        "ENTRYPOINT [\"/bin/bash\"]"
+      ]
     }
   ],
   "provisioners":[
     {
       "type": "shell",
       "inline": [
-        "apk add docker",
+        "apk add docker bash",
         "chmod u+s /usr/bin/docker"
       ]
     }
