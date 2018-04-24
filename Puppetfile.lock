@@ -13,10 +13,10 @@ FORGE
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git
-  ref: f8ce1d8b435f53eb9f4a591f4572378988fb0d13
-  sha: f8ce1d8b435f53eb9f4a591f4572378988fb0d13
+  ref: e3104440ac41df040fff299dc44e9fef9128b3b3
+  sha: e3104440ac41df040fff299dc44e9fef9128b3b3
   specs:
-    jhoblitt-lsststack (0.1.0)
+    lsstsqre-lsststack (0.1.0)
       maestrodev-wget (< 1.8.0, >= 1.7.3)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
       puppetlabs-vcsrepo (< 1.3.0, >= 1.2.0)
@@ -31,8 +31,8 @@ GIT
 
 DEPENDENCIES
   camptocamp-augeas (~> 1.4)
-  jhoblitt-lsststack (>= 0)
   jhoblitt-sysstat (~> 1.1)
+  lsstsqre-lsststack (>= 0)
   maestrodev-wget (~> 1.7)
   pltraining-dirtree (~> 0.2.2)
   puppetlabs-stdlib (>= 0)

@@ -12,10 +12,10 @@
     {
       "type": "shell",
       "environment_vars": [
-        "DEVTOOLSET_VERSION={{user `version`}}"
+        "SCL_COMPILER={{user `scl_compiler`}}"
       ],
       "scripts": [
-        "scripts/devtoolset.sh",
+        "scripts/scl-compiler.sh",
         "scripts/cleanup.sh"
       ]
     }
@@ -44,6 +44,6 @@
     "build_repository": "docker.io/lsstsqre/centos",
     "build_name": "7-stackbase-devtoolset-6",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
-    "version": "6"
+    "scl_compiler": "devtoolset-6"
   }
 }
