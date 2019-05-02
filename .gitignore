@@ -1,7 +1,5 @@
 bin/
 .bundle/
-docker/centos-6/Dockerfile
-docker/centos-7/Dockerfile
 downloads/
 .librarian/
 modules/
