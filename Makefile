@@ -1,6 +1,6 @@
 UNAME := $(shell uname -s | tr A-Z a-z)
 BIN_DIR=./bin
-VERSION=1.1.1
+VERSION=1.4.0
 NAME=packer
 ZIP_FILE=$(NAME)_$(VERSION)_$(UNAME)_amd64.zip
 
