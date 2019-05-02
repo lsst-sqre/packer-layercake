@@ -5,7 +5,11 @@
       "type": "docker",
       "image": "docker.io/centos:5",
       "pull": false,
-      "commit": true
+      "commit": true,
+      "changes": [
+        "ENTRYPOINT [\"\"]",
+        "CMD [\"/bin/bash\"]"
+      ]
     }
   ],
   "provisioners":[

@@ -8,7 +8,9 @@
       "commit": true,
       "changes": [
         "USER vagrant",
-        "WORKDIR /home/vagrant"
+        "WORKDIR /home/vagrant",
+        "ENTRYPOINT [\"\"]",
+        "CMD [\"/bin/bash\"]"
       ]
     },
     {
