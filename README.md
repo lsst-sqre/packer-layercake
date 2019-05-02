@@ -35,7 +35,7 @@ Build base images suitable for usage by vagrant with jhoblitt's fork of
     ./packer/packer build --only=openstack ./centos-6.7-x86_64.json
     ./packer/packer build --only=openstack ./centos-7.2-x86_64.json
 
-_The `bento` images only need to be [re-]recreated upon new features or major
+_The `bento` images only need to be recreated upon new features or major
 base OS changes.  Such as a new minor release._
 
 ### Step 2
@@ -82,9 +82,7 @@ Update these repos:
 * https://github.com/lsst-sqre/sqr-002
 * https://github.com/lsst-sqre/vagrant-nebula
 
-Then announce it to the [LSST DM] world via `community.lsst.org` and on the
-hipchat `square` and `nebula` channels.
-
+Then announce it to the (LSST DM) world via `community.lsst.org`.
 
 Docker containers
 ---
@@ -132,20 +130,17 @@ Update these repos:
 
 * https://github.com/lsst-sqre/sqr-002
 
-Then announce it to the [LSST DM] world via `community.lsst.org` and on the
-hipchat `square` channel.
-
+Then announce it to the (LSST DM) world via `community.lsst.org`.
 
 Work-in-progress QEMU->Nebula upload instructions
-=================================================
+---
 
     openstack image create --container-format bare --disk-format qcow2 --min-disk 0 --min-ram 0 --file packer-centos-7.1-x86_64-20151120221107-qemu/centos-7.1-x86_64-20151120221107 packer-centos-7.1-x86_64-20151120221107-qemu
 
     openstack image create --container-format bare --disk-format qcow2 --min-disk 0 --min-ram 0 --file packer-centos-6.7-x86_64-20151120221334-qemu/centos-6.7-x86_64-20151120221334 packer-centos-6.7-x86_64-20151120221334-qemu
 
-
 Work-in-progress AWS instructions
-=================================
+---
 
 Building QEMU/KVM images with packer
 ---
@@ -171,7 +166,7 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/VMImportTroubleshooting.html
 
 (build kvm images with packer/bento)
 
-```
+```bash
 wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip
 unzip ec2-api-tools.zip
 export EC2_HOME=`pwd`/ec2-api-tools-1.7.5.1
@@ -240,7 +235,6 @@ aws ec2 modify-image-attribute --image-id $IMAGE_ID --launch-permission "{\"Add\
 
 aws ec2 describe-image-attribute --image-id $IMAGE_ID --attribute launchPermission
 ```
-
 
 Upload a QEMU/KVM image directly as a volume
 ---
