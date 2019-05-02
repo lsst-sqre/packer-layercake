@@ -17,7 +17,8 @@
     {
       "type": "shell",
       "inline": [
-        "apk add docker bash"
+        "apk upgrade --no-cache",
+        "apk add docker bash --no-cache"
       ]
     }
   ],
