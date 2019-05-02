@@ -17,8 +17,7 @@
     {
       "type": "shell",
       "inline": [
-        "apk add docker bash",
-        "chmod u+s /usr/bin/docker"
+        "apk add docker bash"
       ]
     }
   ],
