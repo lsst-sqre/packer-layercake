@@ -23,7 +23,7 @@
     {
       "type": "shell",
       "inline": [
-        "curl https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
+        "curl -sSL https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet_5_agent.sh | sh"
       ]
     },
     {

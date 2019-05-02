@@ -18,7 +18,7 @@
       "inline": [
         "yum clean all -y",
         "yum update -y",
-        "curl -sSL https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet_agent.sh | bash -s -- -v 4.10.6"
+        "curl -sSL https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet_5_agent.sh | sh"
       ]
     },
     {
@@ -31,7 +31,7 @@
     {
       "type": "shell",
       "inline": [
-        "yum remove -y puppetlabs-release-pc1 puppet-agent"
+        "yum remove -y puppetlabs-release-pc1 puppet-agent puppet5-release"
       ]
     },
     {
