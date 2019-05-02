@@ -1,6 +1,5 @@
 include ::stdlib
 include ::augeas
-include ::sysstat
 
 $stack_user  = $::lsst_stack_user ? {
   #undef   => 'lsstsw',

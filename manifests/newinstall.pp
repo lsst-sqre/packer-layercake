@@ -1,6 +1,5 @@
 include ::stdlib
 include ::augeas
-include ::sysstat
 include ::wget
 
 $stack_user  = $::lsst_stack_user ? {
