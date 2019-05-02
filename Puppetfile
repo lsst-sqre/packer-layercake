@@ -3,7 +3,6 @@ forge 'https://forgeapi.puppetlabs.com'
 mod 'puppetlabs/stdlib'
 mod 'camptocamp/augeas', '~> 1.4'
 mod 'stahnma/epel', '~> 1.1'
-mod 'jhoblitt/sysstat', '~> 1.1'
 mod 'maestrodev/wget', '~> 1.7'
 mod 'pltraining/dirtree', '~> 0.2.2'
 mod 'saz/sudo',

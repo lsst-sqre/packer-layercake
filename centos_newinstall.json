@@ -5,7 +5,11 @@
       "type": "docker",
       "image": "{{user `base_image`}}",
       "pull": false,
-      "commit": true
+      "commit": true,
+      "changes": [
+        "ENTRYPOINT [\"\"]",
+        "CMD [\"/bin/bash\"]"
+      ]
     },
     {
       "name": "openstack-centos-6",

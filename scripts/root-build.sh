@@ -4,7 +4,7 @@ set -o errexit
 
 ARGS=()
 
-if [ ! -z "$TAG" ]; then
+if [ -n "$TAG" ]; then
   ARGS+=('-t')
   ARGS+=("$TAG")
 fi

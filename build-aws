@@ -12,5 +12,7 @@ bundle install
 bundle exec librarian-puppet install
 # XXX the output of `newinstall` is not pipelined as the input to `build`
 # XXX only el6 or el7 can be run at a time since the souce_ami variable is used by both builders
-./bin/packer build --only=aws-centos-6 --var source_ami=ami-021b5c68 centos_newinstall.json
-./bin/packer build --only=aws-centos-6 --var source_ami=ami-fc2f6896 --var products="$PRODUCTS" --var tag="${TAG}" centos_build.json
+#./bin/packer build --only=aws-centos-6 --var source_ami=ami-021b5c68 centos_newinstall.json
+#./bin/packer build --only=aws-centos-7 --var source_ami=ami-fb135491 centos_newinstall.json
+#./bin/packer build --only=aws-centos-6 --var source_ami=ami-fc2f6896 --var products="$PRODUCTS" --var tag="${TAG}" centos_build.json
+./bin/packer build --only=aws-centos-7 --var source_ami=ami-ba05c6d7 --var products="$PRODUCTS" --var tag="${TAG}" centos_build.json

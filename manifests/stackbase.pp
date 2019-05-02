@@ -1,6 +1,4 @@
 include ::stdlib
-include ::augeas
-include ::sysstat
 include ::wget
 
 if $::osfamily == 'RedHat' {

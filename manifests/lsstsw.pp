@@ -1,6 +1,5 @@
 include ::stdlib
 include ::augeas
-include ::wget
 
 $stack_user  = $::lsst_stack_user ? {
   #undef   => 'lsstsw',
@@ -39,9 +38,7 @@ group { $stack_group:
 }
 
 class { '::lsststack':
-  install_dependencies => true,
-  install_convenience  => true,
-  manage_repos         => false,
+  install_convenience => true,
 }
 
 # prune off the destination dir so ::lsststack::newinstall may declare it
@@ -49,10 +46,12 @@ $dirtree = dirtree($lsst_stack_path)
 $d = delete_at($dirtree, -1) # XXX replace with array slice nder puppet 4.x
 ensure_resource('file', $d, {'ensure' => 'directory'})
 
-::lsststack::newinstall { $stack_user:
-  user         => $stack_user,
-  manage_user  => false,
-  group        => $stack_group,
-  manage_group => false,
-  stack_path   => $::lsst_stack_path,
+::lsststack::lsstsw { $stack_user:
+  user              => $stack_user,
+  manage_user       => false,
+  group             => $stack_group,
+  manage_group      => false,
+  lsstsw_ensure     => 'latest',
+  buildbot_ensure   => 'latest',
+  lsst_build_ensure => 'latest',
 }

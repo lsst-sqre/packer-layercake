@@ -1,13 +1,22 @@
 UNAME := $(shell uname -s | tr A-Z a-z)
-BIN_DIR=./bin
-VERSION=1.1.1
-NAME=packer
-ZIP_FILE=$(NAME)_$(VERSION)_$(UNAME)_amd64.zip
+BIN_DIR = bin
+DL_DIR = downloads
+ARCH = amd64
 
-$(BIN_DIR):
-	mkdir $@
-	cd $@; wget -nc https://releases.hashicorp.com/$(NAME)/$(VERSION)/$(ZIP_FILE)
-	cd $@; unzip $(ZIP_FILE)
+PCKR_VER = 1.4.0
+PCKR_ZIP_FILE := packer_$(PCKR_VER)_$(UNAME)_$(ARCH).zip
+PCKR_ZIP_DL := $(DL_DIR)/$(PCKR_ZIP_FILE)
+PCKR_BIN := $(BIN_DIR)/packer
+
+# $< may not be defined because of |
+$(PCKR_BIN): | $(PCKR_ZIP_DL)
+	unzip -d $(BIN_DIR) $(PCKR_ZIP_DL)
+
+$(PCKR_ZIP_DL): | $(DL_DIR)
+	wget -nc https://releases.hashicorp.com/packer/$(PCKR_VER)/$(PCKR_ZIP_FILE) -O $@
+
+$(BIN_DIR) $(DL_DIR):
+	mkdir -p $@
 
 clean:
 	-rm -r $(BIN_DIR)
